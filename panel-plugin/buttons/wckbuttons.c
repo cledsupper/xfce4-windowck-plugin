@@ -304,24 +304,36 @@ void on_wck_state_changed (WnckWindow *controlwindow, gpointer data)
     set_maximize_button_image (wb, image_state);
 
     gtk_image_set_from_pixbuf (wb->button[CLOSE_BUTTON]->image, wb->pixbufs[IMAGE_CLOSE][image_state]);
+
+    if (image_state) {
+        if ((wnck_window_get_window_type(controlwindow) == WNCK_WINDOW_DESKTOP
+                && wb->prefs->show_on_desktop)
+            || wnck_window_get_window_type(controlwindow) != WNCK_WINDOW_DESKTOP)
+        {
+            if (!gtk_widget_get_visible(GTK_WIDGET(wb->hvbox)))
+                gtk_widget_show_all(GTK_WIDGET(wb->hvbox));
+        }
+        else {
+            if (gtk_widget_get_visible(GTK_WIDGET(wb->hvbox)))
+                gtk_widget_hide_all(GTK_WIDGET(wb->hvbox));
+        }
+    }
+    else if (gtk_widget_get_visible(GTK_WIDGET(wb->hvbox))) {
+        gtk_widget_hide_all(GTK_WIDGET(wb->hvbox));
+    }
 }
 
 void on_control_window_changed (WnckWindow *controlwindow, WnckWindow *previous, gpointer data)
 {
     WBPlugin *wb = data;
     gint i;
+    gboolean hide_buttons = FALSE;
 
     if (!controlwindow
         || ((wnck_window_get_window_type (controlwindow) == WNCK_WINDOW_DESKTOP)
         && !wb->prefs->show_on_desktop))
     {
-        if (gtk_widget_get_visible(GTK_WIDGET(wb->hvbox)))
-            gtk_widget_hide_all(GTK_WIDGET(wb->hvbox));
-    }
-    else
-    {
-        if (!gtk_widget_get_visible(GTK_WIDGET(wb->hvbox)))
-            gtk_widget_show_all(GTK_WIDGET(wb->hvbox));
+        hide_buttons = TRUE;
     }
 
     if (controlwindow)
@@ -332,6 +344,7 @@ void on_control_window_changed (WnckWindow *controlwindow, WnckWindow *previous,
                 gtk_widget_set_sensitive(GTK_WIDGET(wb->button[i]->eventbox), TRUE);
 
             on_wck_state_changed (controlwindow, wb);
+            return;
         }
         else if (wb->prefs->show_on_desktop)
         {
@@ -340,7 +353,17 @@ void on_control_window_changed (WnckWindow *controlwindow, WnckWindow *previous,
             gtk_widget_set_sensitive(GTK_WIDGET(wb->button[CLOSE_BUTTON]->eventbox), TRUE);
 
             on_wck_state_changed (controlwindow, wb);
+            return;
         }
+    }
+
+    if (hide_buttons) {
+        if (gtk_widget_get_visible(GTK_WIDGET(wb->hvbox)))
+            gtk_widget_hide_all(GTK_WIDGET(wb->hvbox));
+    }
+    else {
+        if (!gtk_widget_get_visible(GTK_WIDGET(wb->hvbox)))
+            gtk_widget_show_all(GTK_WIDGET(wb->hvbox));
     }
 }
 
