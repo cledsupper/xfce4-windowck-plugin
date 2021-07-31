@@ -332,8 +332,6 @@ void on_control_window_changed (WnckWindow *controlwindow, WnckWindow *previous,
                 gtk_widget_set_sensitive(GTK_WIDGET(wb->button[i]->eventbox), TRUE);
 
             on_wck_state_changed (controlwindow, wb);
-            if (!gtk_widget_get_visible(GTK_WIDGET(wb->hvbox)))
-                gtk_widget_show_all(GTK_WIDGET(wb->hvbox));
         }
         else if (wb->prefs->show_on_desktop)
         {
