@@ -1,46 +1,35 @@
-# xfce4-windowck-plugin
+# xfce4-windowck-plugin (fork)
 
-Xfce panel plugin which allows to put the maximized window title and windows buttons on the panel.
+Esta é uma modificação do plugin do XFCE Windowck que esconde os botões de janela quando a janela em foco não está maximizada.
 
-Original plugin's features:
+## COMPILANDO
 
-* Show the title and buttons of the maximized window on the panel.
-* Allow window actions on buttons and title clicks (activate, (un)maximize, close).
-* Allow window action menu on left button click.
-* Title formatting options.
-* xfwm4/unity theming support for buttons.
+Para compilar, veja quais pacotes você precisa instalar no arquivo de texto em debian/control, seção Build-Depends.
 
-FAQ:  
-Q: How do I hide the window decorations on maximized windows on Xfce?  
-A: Xfce 4.12 now support Titileless feature!! Enable it in window manager tweaks → accessibility.
+Este arquivo indica os nomes dos pacotes bem como as versões mínimas que devem estar disponíveis no seu repositório.
 
-This code is derived from original 'Window Applets' from Andrej Belcijan.
-See http://gnome-look.org/content/show.php?content=103732 for infos.
+Após instalada as dependências de compilação, instale o pacote "build-essential" necessário para executar os comandos abaixo.
 
-# Screenshots
+1. Gere os arquivos de construção:
+  `./autogen.sh --prefix=/usr`
+2. Agora compile o plugin:
+  `make`
 
-See [this page](https://goodies.xfce.org/projects/panel-plugins/xfce4-windowck-plugin) for screenshots
+## INSTALANDO
 
-# Installation
+Assumindo que você compilou o plugin com sucesso, já pode executar o comando de instalação a seguir.
 
-#### Arch Linux
+Para instalar:
+  `sudo make install`
 
-For Arch Linux users [AUR package](https://aur.archlinux.org/packages/xfce4-windowck-plugin/) is available
+Se tudo deu certo, você já pode adicionar o plugin "Window Header - Buttons" no painel.
 
-#### Other Linux distributions
+Ele deve aparecer escondido, pois é necessário que uma janela maximizada esteja em foco.
 
-* Install dependencies:
-  - For debian/ubuntu see debian/control folder and follow debian packaging guidlines
-* Generate common makefiles:
-  ```
-  ./autogen.sh --prefix=/usr
-  ```
-* compile and install the plugin
-  ```bash
-  make
-  sudo make install
-  ```
+## RELATANDO ERROS
 
-# How to report bugs?
+Você pode, neste repositório, relatar falsos erros para pedir ajuda com a instalação do plugin, elaborar críticas ou ainda abrir PR's com modificações exclusivas a esta versão do plugin.
 
-Bugs should be reported right to this [GitHub page](https://github.com/nikitabobko/xfce4-windowck-plugin-bobko-mod/issues)
+Para todos os demais casos, eu não sou capaz de te ajudar, então vá para o [repositório oficial](https://github.com/cedl38/xfce4-windowck-plugin)!
+
+by cleds.upper
